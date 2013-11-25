@@ -102,10 +102,6 @@ PRODUCT_PACKAGES += \
    init.qcom.usb.rc \
    ueventd.qcom.rc 
 
-# USBMS for recovery 
-PRODUCT_COPY_FILES += \
-   $(LOCAL_PATH)/rootdir/etc/init.qcom.usb.rc:root/init.recovery.$(TARGET_BOOTLOADER_BOARD_NAME).rc
-
 
 # Audio
 PRODUCT_PACKAGES += \
