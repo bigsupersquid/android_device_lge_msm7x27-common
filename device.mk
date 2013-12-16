@@ -139,6 +139,14 @@ PRODUCT_PACKAGES += \
 # Use set_perm (no selinux version) instead of set_metadata (selinux version)
 #USE_SET_METADATA := false
 
+DEFAULT_PROPERTY_OVERRIDES += \
+        ro.secure=0 \
+        ro.adb.secure=0 \
+		ro.allow.mock.location=1 \
+        ro.debuggable=1 \
+        persist.service.adb.enable=1 \
+        persist.sys.usb.config=mtp,adb
+
 # KitKat uses selinux enforcing mode by default
 #PRODUCT_PROPERTY_OVERRIDES += \
 #    ro.boot.selinux=permissive
