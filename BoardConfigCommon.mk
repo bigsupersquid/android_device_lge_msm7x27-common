@@ -49,7 +49,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/lge/msm7x27-common/include3x
 #TARGET_SPECIFIC_HEADER_PATH := device/lge/msm7x27-common/include 
 #endif
 #TARGET_PREBUILT_KERNEL := device/lge/thunderc/kernels/test21/zImage
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom
+BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.selinux=permissive 
 BOARD_KERNEL_BASE := 0x12200000
 BOARD_KERNEL_PAGESIZE := 2048
 
@@ -67,6 +67,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 ## Graphics
 BOARD_EGL_NEEDS_LEGACY_FB := true
 #TARGET_DISABLE_TRIPLE_BUFFERING := true
+DISABLE_DEXPREOPT=true 
 TARGET_NO_HW_VSYNC := false
 COMMON_GLOBAL_CFLAGS += -DANCIENT_GL
 COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60 
