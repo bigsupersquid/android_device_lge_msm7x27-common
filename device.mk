@@ -140,8 +140,14 @@ PRODUCT_PACKAGES += \
 #USE_SET_METADATA := false
 
 # KitKat uses selinux enforcing mode by default
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.boot.selinux=permissive
+#PRODUCT_PROPERTY_OVERRIDES += \
+#    ro.boot.selinux=permissive
+
+
+# Disable SELinux 
+#PRODUCT_PROPERTY_OVERRIDES += \ 
+#    ro.boot.selinux=disabled 
+
 
 # Offmode charging
 #PRODUCT_PACKAGES += \
