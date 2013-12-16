@@ -1,5 +1,5 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_small.mk)
-$(call inherit-product, device/common/gps/gps_us_supl.mk)
+
 
 ## BlueZ support
 ## Note: needs to be defined here in order to satisfy inheritance issues.
@@ -62,16 +62,15 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
     $(LOCAL_PATH)/configs/nvram.txt:system/etc/wl/nvram.txt \
-    $(LOCAL_PATH)/configs/default.prop:root/default.prop \
 	$(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
-    $(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
+    $(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+    $(LOCAL_PATH)/configs/default.prop:root/default.prop
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
-	frameworks/native/data/etc/android.hardware.location.xml:system/etc/permissions/android.hardware.location.xml \
     frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml
 
@@ -116,10 +115,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
     gps.default \
-	gps.msm7x27 \
-	libloc_api-rpc \
     lights.msm7x27 \
-    lgapversion \
 	librpc
 #	hwcomposer.msm7x27 \    
 # Build sim toolkit
@@ -148,8 +144,8 @@ DEFAULT_PROPERTY_OVERRIDES += \
         persist.sys.usb.config=mtp,adb
 
 # KitKat uses selinux enforcing mode by default
-#PRODUCT_PROPERTY_OVERRIDES += \
-#    ro.boot.selinux=permissive
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.boot.selinux=permissive
 
 
 # Disable SELinux 
@@ -165,6 +161,8 @@ DEFAULT_PROPERTY_OVERRIDES += \
 # Inherit qcom/msm7x27
 $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 
+# Install/Uninstall google apps
+#$(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
 # Common assets 
 PRODUCT_AAPT_CONFIG := normal mdpi hdpi 
 
