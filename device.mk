@@ -132,7 +132,6 @@ PRODUCT_PACKAGES += \
     make_ext4fs \
     setup_fs
 
-<<<<<<< HEAD
 # Use set_perm (no selinux version) instead of set_metadata (selinux version)
 #USE_SET_METADATA := false
 
@@ -144,16 +143,10 @@ DEFAULT_PROPERTY_OVERRIDES += \
         persist.service.adb.enable=1 \
         persist.sys.usb.config=mtp,adb
 
-# KitKat uses selinux enforcing mode by default
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.boot.selinux=permissive
-
-
 # Disable SELinux 
 #PRODUCT_PROPERTY_OVERRIDES += \ 
 #    ro.boot.selinux=disabled 
 
-=======
 # SELinux - we're not ready for enforcing mode yet
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.boot.selinux=permissive
@@ -161,7 +154,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 BOARD_SEPOLICY_DIRS += device/lge/msm7x27-common/sepolicy
 BOARD_SEPOLICY_UNION += \
     file_contexts
->>>>>>> 29d2130... Add basic SELinux policy for /sd-ext
 
 # Offmode charging
 #PRODUCT_PACKAGES += \
