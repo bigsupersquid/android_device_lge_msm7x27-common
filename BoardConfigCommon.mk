@@ -120,6 +120,7 @@ BOARD_CDMA_NETWORK := true
 # Legacy ril
 #COMMON_GLOBAL_CFLAGS += -DRIL_VERSION_2_SUPPORT
 #BOARD_RIL_CLASS := ../../../device/lge/thunderc/ril/
+#TARGET_TOROPLUS_RADIO := true
 
 ## Lights
 TARGET_PROVIDES_LIBLIGHT := true

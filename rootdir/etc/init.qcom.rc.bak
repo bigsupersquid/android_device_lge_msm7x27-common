@@ -9,17 +9,20 @@ on early-init
     mount debugfs /sys/kernel/debug /sys/kernel/debug
 
     # create dirs
+    mkdir /system
+    mkdir /data 0771 system system
+    mkdir /cache 0771 system cache
     mkdir /sd-ext 0771 system system
 
+    mkdir /storage 0050 system sdcard_r
+    mkdir /storage/sdcard0 0000 system system
+    symlink /storage/sdcard0 /mnt/sdcard
+    symlink /storage/sdcard0 /sdcard
 #############
 ## 2: INIT ##
 #############
 on init
-    # See storage config details at http://source.android.com/tech/storage/
-    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
-    mkdir /storage/sdcard0 0700 root root
-    symlink /storage/sdcard0 /mnt/sdcard
-    symlink /storage/sdcard0 /sdcard
+    # setup the global environment
     export EXTERNAL_STORAGE /storage/sdcard0
     export SD_EXT_DIRECTORY /sd-ext
     export DOWNLOAD_CACHE /cache/download
@@ -65,7 +68,7 @@ on init
 ###########
 on fs
 
-    # framebuffer permission for copybit
+# framebuffer permission for copybit
     chmod 0666 /dev/graphics/fb0
 
     # Mount /system rw first to give the filesystem a chance to save a checkpoint
@@ -100,6 +103,11 @@ on post-fs
 ## 7: POST-FS-DATA ##
 #####################
 on post-fs-data
+
+    # we will remap this as /mnt/sdcard with the sdcard fuse tool
+    mkdir /data/media 0775 media_rw media_rw
+    chown media_rw media_rw /data/media
+
     # Create the directories used by the Wireless subsystem
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
@@ -164,9 +172,11 @@ on early-boot
 #############
 on boot
 
+
     # allow reading kernel command line
     chmod 0644 /proc/cmdline
 
+    
     # radio
     mkdir /data/radio 0770 radio radio
     chmod 2770 /data/radio
@@ -190,10 +200,6 @@ on boot
     chown dhcp dhcp /data/misc/dhcp
     mkdir /data/system 0775 system system
 
-    # allow interfaces to get IPv6 address when tethering is enabled
-    write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet1/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet2/accept_ra 2
     # Fast dormancy
     setprop ro.ril.fast.dormancy.rule 1
     setprop ro.ril.fd.scron.timeout 4
@@ -221,16 +227,11 @@ on boot
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet1/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet2/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet3/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet4/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet5/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet6/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet7/accept_ra 2
 
     write /proc/sys/net/ipv6/conf/rmnet_usb0/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb1/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb2/accept_ra 2
-    write /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra 2
+ 
 
     # To prevent out of order acknowledgements from making
     # connection tracking to treat them as not belonging to
@@ -240,9 +241,7 @@ on boot
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
-    # Run sysinit
-    exec /system/bin/sysinit
-    
+
 #############################################################################
 ### S E R V I C E S                                                        ##
 #############################################################################
@@ -269,8 +268,10 @@ service hciattach /system/bin/sh /system/bin/init.qcom.bt.sh
 on property:service.brcm.bt.mac=*
     exec /system/bin/hwaddrs
 
+
 on property:init.svc.wpa_supplicant=stopped
    stop dhcpcd_wlan0
+
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211,wext -c/data/misc/wifi/wpa_supplicant.conf \
     -e/data/misc/wifi/entropy.bin \
@@ -279,13 +280,11 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
-
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
-    class main
+	
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABDKL
+    class core
     disabled
     oneshot
-
-
 
 service iprenew_wlan0 /system/bin/dhcpcd -n
     class main
@@ -322,13 +321,28 @@ service setapversion /system/bin/lgapversion
 on property:gsm.version.baseband=V07u-000-000-MAR-23-2009
    start setapversion
 
+service qcom-sh /system/bin/sh /init.qcom.sh
+    class core
+    user root
+    oneshot
+
+service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
+    class main
+    user root
+    disabled
+    oneshot
+
+on property:init.svc.bootanim=stopped
+    start qcom-post-boot
+
 service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
     class late_start
     disabled
-
+	
 service bugreport /system/bin/dumpstate -d -v -o /storage/sdcard0/bugreports/bugreport
 #   Triggered by the KEY_VOLUME_DOWN+KEY_MENU keycodes
     keycodes 114 139
     class late_start
+
     disabled
     oneshot

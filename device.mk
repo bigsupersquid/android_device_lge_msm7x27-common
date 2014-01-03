@@ -1,6 +1,3 @@
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_small.mk)
-
-
 ## BlueZ support
 ## Note: needs to be defined here in order to satisfy inheritance issues.
 ## If disabled, Bluedroid will be used.
@@ -48,8 +45,8 @@ PRODUCT_PACKAGES += \
     hwaddrs
 
 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh
+#PRODUCT_COPY_FILES += \
+#    $(LOCAL_PATH)/prebuilt/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/CHANGELOG-CM.txt:system/etc/CHANGELOG-CM.txt \
@@ -132,20 +129,6 @@ PRODUCT_PACKAGES += \
     make_ext4fs \
     setup_fs
 
-# Use set_perm (no selinux version) instead of set_metadata (selinux version)
-#USE_SET_METADATA := false
-
-DEFAULT_PROPERTY_OVERRIDES += \
-        ro.secure=0 \
-        ro.adb.secure=0 \
-		ro.allow.mock.location=1 \
-        ro.debuggable=1 \
-        persist.service.adb.enable=1 \
-        persist.sys.usb.config=mtp,adb
-
-# Disable SELinux 
-#PRODUCT_PROPERTY_OVERRIDES += \ 
-#    ro.boot.selinux=disabled 
 
 # SELinux - we're not ready for enforcing mode yet
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -160,13 +143,36 @@ BOARD_SEPOLICY_UNION += \
 #    charger \
 #    charger_res_images
 
+# Development settings
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.debuggable=1 \
+    ro.secure=0 \
+    ro.allow.mock.location=0 \
+    ro.adb.secure=0 \
+    persist.service.adb.enable=1 \
+    persist.sys.usb.config=mtp,adb
+
+# set default USB configuration
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
+
 # Inherit qcom/msm7x27
 $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 
 # Install/Uninstall google apps
 #$(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
+
+# Dalvik
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.checkjni=false \
+    dalvik.vm.dexopt-data-only=1 \
+    dalvik.vm.dexopt-flags=v=a,o=v,m=y,u=y
+
+$(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Common assets 
 PRODUCT_AAPT_CONFIG := normal mdpi hdpi 
+PRODUCT_LOCALES := en_US 
 
 # lge msm7x27-common overlays
 DEVICE_PACKAGE_OVERLAYS += device/lge/msm7x27-common/overlay
