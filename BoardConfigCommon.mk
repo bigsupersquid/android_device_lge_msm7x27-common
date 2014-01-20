@@ -105,6 +105,9 @@ BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE :=
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE_LEGACY := msm7x27 # temporary workaround
 BOARD_USES_QCOM_LIBRPC := true
 
+## Override healthd HAL
+BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm7x27
+
 ## RIL
 BOARD_PROVIDES_LIBRIL := true
 #TARGET_PROVIDES_LIBRIL := vendor/lge/thunderc/proprietary/lib/libril.so
