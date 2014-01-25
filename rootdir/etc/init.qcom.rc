@@ -6,7 +6,7 @@ import /init.qcom.bluetooth.rc
 ###################
 on early-init
 
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
+    mount debugfs /sys/kernel/debug 
 
     # create dirs
     mkdir /sd-ext 0771 system system
@@ -95,15 +95,34 @@ on post-fs
     setprop wifi.interface wlan0
     mkdir /data/misc/dhcp 0777 system system
 
+# Setup bluetooth
+    chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chown bluetooth bluetooth /proc/bluetooth/sleep/proto
+    chown system system /sys/module/sco/parameters/disable_esco
+    chmod 0660 /sys/module/bluetooth_power/parameters/power
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+    chmod 0660 /proc/bluetooth/sleep/proto
+    chown bluetooth bluetooth /dev/ttyHS0
+    chmod 0666 /dev/ttyHS0
+    chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
+    chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
 
 #####################
 ## 7: POST-FS-DATA ##
 #####################
 on post-fs-data
     # Create the directories used by the Wireless subsystem
+    # cutils/installd wants a media dir
+    mkdir /data/media 0770 system system
+
+    mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    chmod 0770 /data/misc/wifi/sockets
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/wifi/hostapd 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
 
@@ -170,6 +189,8 @@ on boot
     # radio
     mkdir /data/radio 0770 radio radio
     chmod 2770 /data/radio
+    mkdir /dev/radio 0770 radio radio
+    chown radio system /dev/pm_monitor
 
     # liblights
     chown system system /sys/class/leds/green/brightness
@@ -185,6 +206,7 @@ on boot
     mkdir /data/misc 01771 system misc
     mkdir /data/misc/wifi 0770 system wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
+
     chmod 0770 /data/misc/wifi/sockets
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
@@ -253,6 +275,21 @@ service qmuxd /system/bin/qmuxd
     group radio audio inet bluetooth gps qcom_diag
 
 # configure BT on boot for BlueZ support
+on property:init.svc.bluetoothd=running
+    write /sys/devices/virtual/bluetooth/hci0/idle_timeout 7000
+    start abtfilt
+
+on property:init.svc.bluetoothd=stopped
+    stop abtfilt
+
+service hci_qcomm_init /system/bin/log -t qcom-bluetooth -p i "hci_qcomm_init service requested"
+    class main
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+
 service config_bluetooth /system/bin/sh /system/bin/init.qcom.bt.sh "onboot"
     class main
     user root
@@ -261,18 +298,25 @@ service config_bluetooth /system/bin/sh /system/bin/init.qcom.bt.sh "onboot"
 # HCI attach service
 service hciattach /system/bin/sh /system/bin/init.qcom.bt.sh
     class main
-#   user bluetooth
-    group bluetooth net_bt_admin net_bt_stack
+    user bluetooth
+    group bluetooth net_bt_admin net_bt_stack system qcom_oncrpc
     disabled
     oneshot
 
 on property:service.brcm.bt.mac=*
     exec /system/bin/hwaddrs
+	
+on property:bluetooth.hciattach=true
+    start hciattach
 
+on property:bluetooth.hciattach=false
+    setprop bluetooth.status off
+   
 on property:init.svc.wpa_supplicant=stopped
    stop dhcpcd_wlan0
+   
 service wpa_supplicant /system/bin/wpa_supplicant \
-    -iwlan0 -Dnl80211,wext -c/data/misc/wifi/wpa_supplicant.conf \
+    -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf \
     -e/data/misc/wifi/entropy.bin \
     -O/data/misc/wifi/sockets -g@android:wpa_wlan0
     class main
@@ -285,32 +329,26 @@ service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
     disabled
     oneshot
 
-
-
 service iprenew_wlan0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
 
-service dhcpcd_bnep0 /system/bin/dhcpcd -BKLG
+service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
+    class main
     disabled
     oneshot
 
-service dhcpcd_bnep1 /system/bin/dhcpcd -BKLG
+service iprenew_bt-pan /system/bin/dhcpcd -n
+    class main
     disabled
+    oneshot	
+	
+service hostapd /system/bin/hostapd /data/misc/wifi/hostapd.conf
+    socket hostapd_athap0 dgram 660 wifi wifi
+    group wifi inet
     oneshot
-
-service dhcpcd_bnep2 /system/bin/dhcpcd -BKLG
     disabled
-    oneshot
-
-service dhcpcd_bnep3 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
 
 service setapversion /system/bin/lgapversion
     class main

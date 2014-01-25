@@ -43,11 +43,11 @@
 #if HAVE_ANDROID_OS
 #include <linux/android_pmem.h>
 #endif
-#include <ioctl.h>
+#include <linux/ioctl.h>
 #include <camera/CameraParameters.h>
 
-#include <msm_mdp.h>
-#include <fb.h>
+#include "linux/msm_mdp.h"
+#include <linux/fb.h>
 
 #define LIKELY(exp)   __builtin_expect(!!(exp), 1)
 #define UNLIKELY(exp) __builtin_expect(!!(exp), 0)
@@ -4023,10 +4023,7 @@ status_t QualcommCameraHardware::setExposureCompensation(const CameraParameters&
 
 	mParameters.set(CameraParameters::KEY_EXPOSURE_COMPENSATION, expcomp);
 
-	if(!strcmp(sensorType->name, "3mp"))
-	  expcomp+=4;
-	else
-	  expcomp+=2;
+	expcomp+=2;
 
         bool ret = native_set_parm(CAMERA_SET_PARM_EXPOSURE_COMPENSATION, sizeof(expcomp),
                                        (void *)&expcomp);

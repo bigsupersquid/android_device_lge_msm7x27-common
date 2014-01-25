@@ -44,9 +44,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     hwaddrs
 
-
-#PRODUCT_COPY_FILES += \
-#    $(LOCAL_PATH)/prebuilt/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh
+# USBMS for recovery
+PRODUCT_COPY_FILES += \
+    device/lge/msm7x27-common/recovery/init.recovery.msm7x27.rc:root/init.recovery.$(CM_BUILD).rc
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/CHANGELOG-CM.txt:system/etc/CHANGELOG-CM.txt \
@@ -106,7 +106,7 @@ PRODUCT_PACKAGES += \
 
 # Media
 PRODUCT_PACKAGES += \
-    libdivxdrmdecrypt
+    libdivxdrmdecrypt \
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -115,6 +115,7 @@ PRODUCT_PACKAGES += \
     lights.msm7x27 \
 	librpc
 #	hwcomposer.msm7x27 \    
+
 # Build sim toolkit
 #PRODUCT_PACKAGES += \
 #    Stk
