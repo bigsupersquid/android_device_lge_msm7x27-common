@@ -20,18 +20,9 @@ include device/qcom/msm7x27/BoardConfigCommon.mk
 
 ## Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
-<<<<<<< HEAD
-=======
 BOARD_HAVE_BLUETOOTH := true
 BOARD_BLUEDROID_VENDOR_CONF := device/lge/msm7x27-common/bluetooth/libbt_lge.txt
->>>>>>> c979cbb... Remove bluez support (1/2)
 
-# Note: BOARD_HAVE_BLUETOOTH_BLUEZ is defined in 
-# device/lge/msm7x27-common/device.mk due to inheritance issues. 
-ifndef BOARD_HAVE_BLUETOOTH_BLUEZ 
-  BOARD_HAVE_BLUETOOTH := true 
-  BOARD_BLUEDROID_VENDOR_CONF := device/lge/msm7x27-common/bluetooth/libbt_lge.txt 
-endif
 ## Boot loader & recovery
 TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := true
