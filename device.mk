@@ -1,7 +1,7 @@
 ## BlueZ support
 ## Note: needs to be defined here in order to satisfy inheritance issues.
 ## If disabled, Bluedroid will be used.
-# BOARD_HAVE_BLUETOOTH_BLUEZ := true
+BOARD_HAVE_BLUETOOTH_BLUEZ := true
 
 ifdef BOARD_HAVE_BLUETOOTH_BLUEZ
 # BlueZ: binaries
@@ -61,6 +61,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/nvram.txt:system/etc/wl/nvram.txt \
 	$(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
     $(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+	$(LOCAL_PATH)/configs/hostapd.conf:system/etc/wifi/hostapd.conf \
     $(LOCAL_PATH)/configs/default.prop:root/default.prop
 
 PRODUCT_COPY_FILES += \
