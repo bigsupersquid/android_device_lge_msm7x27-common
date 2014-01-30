@@ -21,7 +21,8 @@ include device/qcom/msm7x27/BoardConfigCommon.mk
 ## Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
 BOARD_HAVE_BLUETOOTH := true
-BOARD_BLUEDROID_VENDOR_CONF := device/lge/msm7x27-common/bluetooth/libbt_lge.txt
+BOARD_BLUEDROID_VENDOR_CONF := device/lge/msm7x27-common/bluetooth/vnd_thunderc.txt
+#BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/msm7x27-common/bluetooth
 
 ## Boot loader & recovery
 TARGET_BOOTANIMATION_PRELOAD := true
@@ -71,10 +72,10 @@ COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60
 ## Camera
 #BOARD_USE_NASTY_PTHREAD_CREATE_HACK := true
 #BOARD_USES_QCOM_LEGACY_CAM_PARAMS := true
-TARGET_CAMERA_SENSOR_SIZE := 3
+TARGET_CAMERA_SENSOR_MP_SIZE := 3
 #TARGET_PREBUILT_LIBCAMERA := false
 COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT -DZTE_CAMERA_HARDWARE
-COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB
+COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB -DNEEDS_VECTORIMPL_SYMBOLS
 #BOARD_USES_LEGACY_CAMERA := true
 #BOARD_CPU_COLOR_CONVERT := true
 
@@ -90,13 +91,14 @@ BOARD_USES_AUDIO_LEGACY := false
 
 ## Wi-Fi & Wi-Fi HotSpot
 
-WPA_SUPPLICANT_VERSION          := VER_0_6_X
+WPA_SUPPLICANT_VERSION          := VER_0_8_X
 BOARD_WLAN_DEVICE               := bcm4325
 BOARD_WEXT_NO_COMBO_SCAN        := true
 BOARD_WPA_SUPPLICANT_DRIVER     := WEXT
-BOARD_WEXT_NO_COMBO_SCAN        := true
-BOARD_HAVE_LEGACY_HOSTAPD := true
-#BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
+#BOARD_WEXT_NO_COMBO_SCAN        := true
+USE_LEGACY_SOFTAP		:= true
+#BOARD_HAVE_LEGACY_HOSTAPD := true
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
 WIFI_DRIVER_HAS_LGE_SOFTAP      := true
 WIFI_DRIVER_MODULE_PATH         := "/system/lib/modules/wireless.ko"
 WIFI_DRIVER_MODULE_ARG          := "firmware_path=/etc/wl/rtecdc.bin nvram_path=/etc/wl/nvram.txt config_path=/data/misc/wifi/config"
