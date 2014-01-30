@@ -249,6 +249,15 @@ on boot
     # Run sysinit
     exec /system/bin/sysinit
     
+########################
+## 10: BOOT COMPLETED ##
+########################
+
+on property:sys.boot_completed=1
+    # Override Kernel Samepage Merging (KSM) values
+    write /sys/kernel/mm/ksm/sleep_millisecs 4000
+    write /sys/kernel/mm/ksm/pages_to_scan 256
+
 #############################################################################
 ### S E R V I C E S                                                        ##
 #############################################################################
