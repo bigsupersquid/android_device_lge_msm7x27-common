@@ -76,7 +76,8 @@ PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
     gps.default \
     lights.msm7x27 \
-	librpc
+	librpc \
+	libnetcmdiface
 #	hwcomposer.msm7x27 \    
 
 # Build sim toolkit
