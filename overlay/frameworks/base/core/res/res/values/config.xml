@@ -11,9 +11,9 @@
     <bool name="config_sf_limitedAlpha">false</bool>
     
     <bool name="config_wifiApStartInterface">true</bool>
-
+    
     <string-array translatable="false" name="config_tether_usb_regexs">
-         <item>"rndis\\d"</item>
+        <item>"rndis\\d"</item>
     </string-array>
     
     <integer-array translatable="false" name="config_tether_upstream_types">
@@ -89,12 +89,11 @@
 		<item>"5,1"</item>
         <item>"7,1"</item>
     </string-array>
-
+    
     <bool name="config_disableMenuKeyInLockScreen">true</bool>
     
     <bool name="config_automatic_brightness_available">false</bool>
-
-
+    
     <integer-array name="config_longPressVibePattern">
         <item>0</item>
         <item>1</item>
@@ -137,7 +136,7 @@
     </integer-array>
 
     <bool name="config_sip_wifi_only">false</bool>
-
+    
     <!-- Package name providing network location support.
     <string name="config_networkLocationProviderPackageName" translatable="false">com.google.android.location</string> -->
     
@@ -145,7 +144,7 @@
     <string name="config_geocodeProviderPackageName" translatable="false">com.google.android.location</string> -->
 
     <!-- Boolean indicating if current platform supports quick switch-on/off of Bluetooth Module -->
-	<!--<bool name="config_bluetooth_adapter_quick_switch">false</bool>-->
+    <!--<bool name="config_bluetooth_adapter_quick_switch">false</bool>-->
     
     <bool name="config_forceDisableHardwareKeyboard">true</bool>
     
@@ -163,7 +162,5 @@
          swipes to scroll the widget area. -->
     <dimen name="kg_edge_swipe_region_size">32dp</dimen>
 
-
     <bool name="config_screenOffAnimation">true</bool>
-	
 </resources>	
