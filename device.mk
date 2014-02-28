@@ -68,14 +68,16 @@ PRODUCT_PACKAGES += \
 
 # Media
 PRODUCT_PACKAGES += \
-    libdivxdrmdecrypt \
+    hwcomposer.msm7x27 \
+    libdivxdrmdecrypt
 
 # Misc
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
     gps.default \
     lights.msm7x27 \
-	librpc
+	librpc \
+	libnetcmdiface
 #	hwcomposer.msm7x27 \    
 
 # Build sim toolkit
@@ -124,7 +126,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 
 # Install/Uninstall google apps
-#$(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
+$(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
 
 # Dalvik
 PRODUCT_PROPERTY_OVERRIDES += \
