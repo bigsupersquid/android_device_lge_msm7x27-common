@@ -17,10 +17,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/AutoVolumeControl.txt:system/etc/AutoVolumeControl.txt \
     $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
     $(LOCAL_PATH)/configs/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \
+    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
     $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
     $(LOCAL_PATH)/configs/nvram.txt:system/etc/wl/nvram.txt \
-	$(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
     $(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 	$(LOCAL_PATH)/configs/hostapd.conf:system/etc/wifi/hostapd.conf \
     $(LOCAL_PATH)/configs/default.prop:root/default.prop
@@ -34,9 +34,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml
 
 PRODUCT_PROPERTY_OVERRIDES += \
-      wifi.ap.interface=wl0.1 
-	
-	
+    wifi.ap.interface=wl0.1
+
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.product.camera=msm7x27 \
     ro.com.google.locationfeatures=1 \
@@ -49,51 +48,51 @@ PRODUCT_PROPERTY_OVERRIDES += \
     com.qc.hdmi_out=false \
     debug.sf.hw=1 \
     debug.composition.type=mdp \
-    debug.gr.numframebuffers=3 \
 	persist.sys.purgeable_assets=1 \
-    persist.service.adb.enable=1
-	
-# Ramdisk 
-PRODUCT_PACKAGES += \
-   initlogo.rle \
-   init.qcom.rc \
-   init.qcom.usb.rc \
-   ueventd.qcom.rc 
+    persist.service.adb.enable=1 \
+    debug.gr.numframebuffers=3
 
+# Ramdisk
+PRODUCT_PACKAGES += \
+    initlogo.rle \
+    init.qcom.rc \
+    init.qcom.usb.rc \
+    ueventd.qcom.rc
 
 # Audio
 PRODUCT_PACKAGES += \
-    audio.primary.msm7x27 \
-    audio_policy.msm7x27
+    audio_policy.msm7x27 \
+    audio.primary.msm7x27
 
-# Media
+# Graphics & Media
 PRODUCT_PACKAGES += \
-    hwcomposer.msm7x27 \
     libdivxdrmdecrypt
 
 # Misc
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
-    gps.default \
     lights.msm7x27 \
-	librpc \
-	libnetcmdiface
-#	hwcomposer.msm7x27 \    
+    lgapversion \
+    libnetcmdiface
+
+# GPS
+PRODUCT_PACKAGES += \
+    gps.default \
+    librpc
 
 # Build sim toolkit
-#PRODUCT_PACKAGES += \
-#    Stk
-    
+PRODUCT_PACKAGES += \
+    Stk
+
 # Camera
 PRODUCT_PACKAGES += \
-    camera.msm7x27 \
-	libcamera
+	libcamera \
+    camera.msm7x27
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
     make_ext4fs \
     setup_fs
-
 
 # SELinux - we're not ready for enforcing mode yet
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -115,8 +114,8 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.secure=0 \
     ro.allow.mock.location=0 \
     ro.adb.secure=0 \
-    persist.service.adb.enable=1 \
-    persist.sys.usb.config=mtp,adb
+    persist.sys.usb.config=mtp,adb \
+    persist.service.adb.enable=1
 
 # set default USB configuration
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
@@ -126,7 +125,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 
 # Install/Uninstall google apps
-$(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
+#$(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
 
 # Dalvik
 PRODUCT_PROPERTY_OVERRIDES += \

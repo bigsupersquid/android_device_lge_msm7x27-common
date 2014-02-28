@@ -14,15 +14,13 @@
 # limitations under the License.
 #
 
-
-# Use the Qualcomm common folder 
-include device/qcom/msm7x27/BoardConfigCommon.mk 
+# Use the Qualcomm common folder
+include device/qcom/msm7x27/BoardConfigCommon.mk
 
 ## Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
 BOARD_HAVE_BLUETOOTH := true
 BOARD_BLUEDROID_VENDOR_CONF := device/lge/msm7x27-common/bluetooth/vnd_thunderc.txt
-#BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/msm7x27-common/bluetooth
 
 ## Boot loader & recovery
 TARGET_BOOTANIMATION_PRELOAD := true
@@ -34,72 +32,51 @@ TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness
 SKIP_SET_METADATA := true
 
 ## Kernel
-#BUILD_WITH_30X_KERNEL := true
-#ifdef BUILD_WITH_30X_KERNEL
 TARGET_KERNEL_SOURCE := kernel/lge/msm7x27-3.0.x
-## *** Copy LG Kernel Headers here if necessary, DO NOT use Android auto-generated headers *** 
-TARGET_SPECIFIC_HEADER_PATH := device/lge/msm7x27-common/include3x 
-#else
-#TARGET_KERNEL_SOURCE := kernel/lge/msm7x27
-#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
-## *** Copy LG Kernel Headers here if necessary, DO NOT use Android auto-generated headers *** 
-#TARGET_SPECIFIC_HEADER_PATH := device/lge/msm7x27-common/include 
-#endif
-#TARGET_PREBUILT_KERNEL := device/lge/thunderc/kernels/test21/zImage
+TARGET_SPECIFIC_HEADER_PATH := device/lge/msm7x27-common/include3x
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom
 BOARD_KERNEL_BASE := 0x12200000
 BOARD_KERNEL_PAGESIZE := 2048
 
-# Copy LG Kernel Headers here if necessary, DO NOT use Android auto-generated headers
-#TARGET_SPECIFIC_HEADER_PATH := device/lge/msm7x27-common/include3x
 
 ## Partition Sizes: Fix this up by examining /proc/mtd on a running device
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x00700000
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00700000
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0xE600000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x0a4e0000
-
 BOARD_FLASH_BLOCK_SIZE := 0
 
 ## Graphics
 BOARD_EGL_NEEDS_LEGACY_FB := true
-#TARGET_DISABLE_TRIPLE_BUFFERING := true
-#DISABLE_DEXPREOPT=true 
 TARGET_DOESNT_USE_FENCE_SYNC := true
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
-
 COMMON_GLOBAL_CFLAGS += -DANCIENT_GL
-COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60 
+COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60
 
 ## Camera
-#BOARD_USE_NASTY_PTHREAD_CREATE_HACK := true
-#BOARD_USES_QCOM_LEGACY_CAM_PARAMS := true
+BOARD_USE_NASTY_PTHREAD_CREATE_HACK := true
+BOARD_CAMERA_NO_UNWANTED_MSG := true
 TARGET_CAMERA_SENSOR_MP_SIZE := 3
-#TARGET_PREBUILT_LIBCAMERA := false
-COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT -DZTE_CAMERA_HARDWARE
-COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB -DNEEDS_VECTORIMPL_SYMBOLS
-#BOARD_USES_LEGACY_CAMERA := true
-#BOARD_CPU_COLOR_CONVERT := true
+TARGET_PREBUILT_LIBCAMERA := false
+COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT
+COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 ## Audio & FM Radio
 TARGET_PROVIDES_LIBAUDIO := true
+BOARD_USES_AUDIO_LEGACY := false
 BOARD_COMBO_DEVICE_SUPPORTED := true
 #BOARD_FM_DEVICE := bcm4325
 #BOARD_HAVE_FM_RADIO := true
 #BOARD_HAVE_QCOM_FM := true
 #COMMON_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 #COMMON_GLOBAL_CFLAGS += -DQCOM_FM_ENABLED
-BOARD_USES_AUDIO_LEGACY := false
 
 ## Wi-Fi & Wi-Fi HotSpot
-
+USE_LEGACY_SOFTAP               := true
 WPA_SUPPLICANT_VERSION          := VER_0_8_X
 BOARD_WLAN_DEVICE               := bcm4325
 BOARD_WEXT_NO_COMBO_SCAN        := true
 BOARD_WPA_SUPPLICANT_DRIVER     := WEXT
-#BOARD_WEXT_NO_COMBO_SCAN        := true
-USE_LEGACY_SOFTAP		:= true
-#BOARD_HAVE_LEGACY_HOSTAPD := true
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
 WIFI_DRIVER_HAS_LGE_SOFTAP      := true
 WIFI_DRIVER_MODULE_PATH         := "/system/lib/modules/wireless.ko"
@@ -111,41 +88,24 @@ WIFI_DRIVER_FW_PATH_AP          := "/system/etc/wl/rtecdc-apsta.bin"
 ## GPS
 BOARD_USES_QCOM_LIBRPC := true
 BOARD_USES_QCOM_GPS := true
-BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
-#BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE_LEGACY := msm7x27 # temporary workaround
+BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
 
 ## Override healthd HAL
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm7x27
 
 ## RIL
 BOARD_PROVIDES_LIBRIL := true
-#TARGET_PROVIDES_LIBRIL := vendor/lge/thunderc/proprietary/lib/libril.so
 BOARD_CDMA_NETWORK := true
-#BOARD_LTE_ON_CDMA := false
-#TARGET_LTE_ON_CDMA := false
-#BOARD_USES_LEGACY_RIL := true
-# Legacy ril
-#COMMON_GLOBAL_CFLAGS += -DRIL_VERSION_2_SUPPORT
-#BOARD_RIL_CLASS := ../../../device/lge/thunderc/ril/
-#TARGET_TOROPLUS_RADIO := true
 
 ## Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
-## Mass Storage 
+## Mass Storage
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/class/android_usb/android0/f_mass_storage/lun/file
 BOARD_UMS_LUNFILE := /sys/class/android_usb/android0/f_mass_storage/lun/file
-#BOARD_USE_USB_MASS_STORAGE_SWITCH := true
-#TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/usb_mass_storage/lun0/file
-#BOARD_UMS_LUNFILE := /sys/devices/platform/msm_hsusb/gadget/lun0/file
-#BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/vold/179:1
-#BOARD_SDEXT_DEVICE := /dev/block/vold/179:2
 
-# Install xattrs
-#USE_SET_METADATA := false
-
-## Touch screen compatibility 
+## Touch screen compatibility
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 ## Minimal fonts
@@ -157,7 +117,7 @@ ENABLE_WEBGL := true
 #BOARD_GLOBAL_CFLAGS += -DBOARD_CHARGING_CMDLINE_NAME='"lge.reboot"' -DBOARD_CHARGING_CMDLINE_VALUE='"pwroff"'
 #BOARD_USES_RECOVERY_CHARGEMODE := false 
 
-## OTA script extra files (build/tools/releasetools) 
+## OTA script extras file (build/tools/releasetools)
 TARGET_OTA_EXTRAS_FILE := device/lge/msm7x27-common/releasetools/extras.txt
 
 ## TEMPORARY HACK: skip building external/chromium_org/
