@@ -41,6 +41,7 @@ app/CMWallpapers.apk
 
 # Live Wallpapers (3MB)
 etc/permissions/android.software.live_wallpaper.xml
+app/Basic.apk
 app/LiveWallpapers.apk
 app/LiveWallpapersPicker.apk
 app/Galaxy4.apk
