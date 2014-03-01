@@ -48,7 +48,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     com.qc.hdmi_out=false \
     debug.sf.hw=1 \
     debug.composition.type=mdp \
-	persist.sys.purgeable_assets=1 \
+    persist.sys.purgeable_assets=1 \
     persist.service.adb.enable=1 \
     debug.gr.numframebuffers=3
 
@@ -81,8 +81,8 @@ PRODUCT_PACKAGES += \
     librpc
 
 # Build sim toolkit
-PRODUCT_PACKAGES += \
-    Stk
+#PRODUCT_PACKAGES += \
+#    Stk
 
 # Camera
 PRODUCT_PACKAGES += \
