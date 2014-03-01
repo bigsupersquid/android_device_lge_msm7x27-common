@@ -55,9 +55,10 @@ app/VisualizationWallpapers.apk
 app/Apollo.apk
 app/Exchange2.apk
 app/LockClock.apk
-priv-app/Launcher3.apk
+system/app/WhisperPush.apk
 app/LatinIME.apk
 lib/libjni_latinime.so
+
 #app/PCKeyboard.apk
 #lib/libjni_pckeyboard.so
 
