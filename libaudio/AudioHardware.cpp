@@ -1460,7 +1460,7 @@ status_t AudioHardware::doRouting(AudioStreamInMSM72xx *input)
 #endif
             {
                 ALOGI("Routing audio to Speakerphone\n");
-                new_snd_device = (isInCall() && SND_DEVICE_SPEAKER_IN_CALL >= 0) ? SND_DEVICE_SPEAKER_IN_CALL : SND_DEVICE_SPEAKER;
+                new_snd_device = SND_DEVICE_SPEAKER;
                 new_post_proc_feature_mask = (ADRC_ENABLE | EQ_ENABLE | RX_IIR_ENABLE | MBADRC_ENABLE);
             }
         }
