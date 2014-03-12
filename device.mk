@@ -115,7 +115,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 
 # Install/Uninstall google apps
-$(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
+#$(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
 
 # Dalvik
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -127,7 +127,7 @@ $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Common assets
-PRODUCT_AAPT_CONFIG := normal mdpi hdpi
+PRODUCT_AAPT_CONFIG := normal mdpi
 PRODUCT_LOCALES := en_US en_IN fr_FR it_IT es_ES et_EE de_DE nl_NL cs_CZ \
     pl_PL ja_JP zh_TW zh_CN zh_HK ru_RU ko_KR nb_NO es_US da_DK el_GR tr_TR \
     pt_PT pt_BR rm_CH sv_SE bg_BG ca_ES en_GB fi_FI hr_HR hu_HU in_ID iw_IL \
