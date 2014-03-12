@@ -20,7 +20,7 @@ include device/qcom/msm7x27/BoardConfigCommon.mk
 ## Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
 BOARD_HAVE_BLUETOOTH := true
-BOARD_BLUEDROID_VENDOR_CONF := device/lge/msm7x27-common/bluetooth/vnd_thunderc.txt
+BOARD_BLUEDROID_VENDOR_CONF := device/lge/msm7x27-common/bluetooth/libbt_lge.txt
 
 ## Boot loader & recovery
 TARGET_BOOTANIMATION_PRELOAD := true
@@ -29,21 +29,20 @@ TARGET_NO_INITLOGO := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGB_565"
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness\"
-SKIP_SET_METADATA := true
 
 ## Kernel
 TARGET_KERNEL_SOURCE := kernel/lge/msm7x27-3.0.x
 TARGET_SPECIFIC_HEADER_PATH := device/lge/msm7x27-common/include3x
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom
-BOARD_KERNEL_BASE := 0x12200000
+BOARD_KERNEL_BASE := 0x12800000
 BOARD_KERNEL_PAGESIZE := 2048
 
 
 ## Partition Sizes: Fix this up by examining /proc/mtd on a running device
-BOARD_BOOTIMAGE_PARTITION_SIZE := 0x00700000
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00700000
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0xE600000
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x0a4e0000
+BOARD_BOOTIMAGE_PARTITION_SIZE := 0x00440000
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00600000
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0xff00000
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x0c780000
 BOARD_FLASH_BLOCK_SIZE := 0
 
 ## Graphics
@@ -96,7 +95,6 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm7x27
 
 ## RIL
 BOARD_PROVIDES_LIBRIL := true
-BOARD_CDMA_NETWORK := true
 
 ## Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -113,9 +111,6 @@ SMALLER_FONT_FOOTPRINT := true
 
 ## Browser & WebKit
 ENABLE_WEBGL := true
-
-#BOARD_GLOBAL_CFLAGS += -DBOARD_CHARGING_CMDLINE_NAME='"lge.reboot"' -DBOARD_CHARGING_CMDLINE_VALUE='"pwroff"'
-#BOARD_USES_RECOVERY_CHARGEMODE := false 
 
 ## OTA script extras file (build/tools/releasetools)
 TARGET_OTA_EXTRAS_FILE := device/lge/msm7x27-common/releasetools/extras.txt

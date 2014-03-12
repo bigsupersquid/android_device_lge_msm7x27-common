@@ -1,22 +1,32 @@
-CyanogenMod 10.1 for ARMv6 devices
+CyanogenMod 11.0 for ARMv6 devices
 ==================================
 
 Visit http://github.com/androidarmv6 for full CyanogenMod changelogs and git access.
 
-Visit http://changelog.bbqdroid.org/#/cm10.1/ for CyanogenMod changelogs
+Visit http://changelog.bbqdroid.org/#/cm11.0/ for CyanogenMod changelogs
 
-Visit http://review.cyanogenmod.com for the CM Gerrit instance.
+Visit http://review.androidarmv6.org for the Gerrit instance.
 
 
-DEVICE CHANGELOG
-----------------
+### FEATURES
 
-### Build 2 (25 Dec 2012)
-* Fix audio (mic/speaker)
-* Fix wi-fi
-* Fix color banding
-* Reduce Trebuchet size
-* Stock camera app takes pictures, but no preview
+* Supports all android 4.4 (KitKat) features
+* Fully functional camera (preview, taking photo, recording video, panorama)
+* Full H/W acceleration with new adreno drivers, 3D modelling (yamato)
+* Hardware decoding of videos, Youtube HQ videos
+* Internet sharing (Bluetooth tethering, USB tethering, Wi-Fi hotspot)
+* Calls, SMS, MMS, 3G/2G, Mobile data, Data limit
+* Loudspeaker in call, Manual network search
+* Usb mass storage, Usb debugging
+* Wi-Fi, Bluetooth, Bluetooth headset, A2DP (Bluetooth Music), Car dock w/BT
+* GPS, Sensors, Lights, Touch screen
+* Funny SIM (128k USIMs)
+* Browser, GMail, GPlay
+* Youtube LQ/MQ/HQ
+* Offmode charging
 
-### Build 1 (22 Dec 2012)
-* Boot version by hephappy
+### KNOWN ISSUES
+
+* Wi-Fi wakelock because of the old bcm4325 wireless driver
+* Swipe in stock keyboard because of missing armv6 libs
+* FM Radio (bcm4325 FM chip is depends on bluez-hcitool)
